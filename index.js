@@ -22,6 +22,7 @@ function test() {
 		    if(pos == -1){
 		    	cod.push(conteudo);
 		    	pos = cod.indexOf(conteudo);
+		    	count[pos] = 0;
 		    }
 		    count[pos] ++;
 		    let total = count.reduce(function(accumulator, a) {
@@ -43,7 +44,7 @@ function test() {
 
 function emit4All() {
 	io.emit('message', "##############################INIT###################################");
-	io.emit('message', new Date("2015-03-25").toString());
+	io.emit('message', new Date().toString());
 	for (var i = 0; i < cod.length; i++) {
 		io.emit('message', cod[i]+' : '+percents[i]);
 	}
@@ -66,7 +67,7 @@ io.on('connection', function(socket){
   });
 });
 
-http.listen(app.get('port'), function(){
+http.listen(3000, function(){
   test();
   console.log('listening on *:3000');
 });
