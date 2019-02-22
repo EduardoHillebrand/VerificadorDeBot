@@ -4,7 +4,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 const dontPadTarget = 'treinobatalhadebots';
-const timer=1000;
+const timer=10000;
 const cod = [];
 var count = [];
 let percents = [];
