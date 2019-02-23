@@ -11,6 +11,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "dontpad-api": "^1.0.3",
+    "dotenv": "^6.2.0",
     "express": "^4.15.2",
     "forever-agent": "^0.6.1",
     "socket.io": "^2.2.0"

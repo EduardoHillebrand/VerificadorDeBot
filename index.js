@@ -2,6 +2,7 @@ const dontpad = require('dontpad-api');
 var app = require('express')();
 var http = require('http').Server(app); 
 var io = require('socket.io')(http);
+require('dotenv').config();
 
 const dontPadTarget = 'treinobatalhadebots';
 const timer=10000;
@@ -25,12 +26,12 @@ function test() {
 	dontpad.readContent(dontPadTarget)
 		.then(conteudo => {
 			let comp = new Date();
-			if(dateConf.toLocaleString('en-US', { hour: 'numeric', hour12: true }) != comp.toLocaleString('en-US', { hour: 'numeric', hour12: true })){
+			if(dateConf.getHours() != comp.getHours()){
 				dateConf = comp;
-				io.emit('message', '******************************************************');
+				io.emit('message', '**********************************************************');
 				resetAll();
 				io.emit('message', '***************** Zerando contadores *****************');
-				io.emit('message', '******************************************************');
+				io.emit('message', '**********************************************************');
 			}
 		    status = conteudo == cod ;
 		    let pos = cod.indexOf(conteudo);
@@ -78,7 +79,7 @@ app.get('/', function(req, res){
 io.on('connection', function(socket){
   console.log('a user connected');
   socket.on('reset', function(msg){
-	if(msg=='*****')
+	if(msg==process.env.clearPassword)
 		dateConf = new Date(0);  	
   });
   socket.on('disconnect', function(){
