@@ -5,18 +5,33 @@ var io = require('socket.io')(http);
 
 const dontPadTarget = 'treinobatalhadebots';
 const timer=10000;
-const cod = [];
+var cod = [];
 var count = [];
-let percents = [];
+var percents = [];
+var dateConf = new Date();
 
 
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
 
+function resetAll() {
+	cod = [];
+	count = [];
+	percents = [];
+}
+
 function test() {
 	dontpad.readContent(dontPadTarget)
 		.then(conteudo => {
+			let comp = new Date();
+			if(dateConf.toLocaleString('en-US', { hour: 'numeric', hour12: true }) != comp.toLocaleString('en-US', { hour: 'numeric', hour12: true })){
+				dateConf = comp;
+				io.emit('message', '******************************************************');
+				resetAll();
+				io.emit('message', '***************** Zerando contadores *****************');
+				io.emit('message', '******************************************************');
+			}
 		    status = conteudo == cod ;
 		    let pos = cod.indexOf(conteudo);
 		    if(pos == -1){
@@ -37,7 +52,7 @@ function test() {
 		    done();
 		}).catch(err => { 
 			console.log('err',err);
-			io.emit('err', new Date("2015-03-25").toString() + ' - ' + err.code);
+			io.emit('err', new Date().toString() + ' - ' + err.code);
 		    done();
 		});
 }
@@ -62,6 +77,10 @@ app.get('/', function(req, res){
 
 io.on('connection', function(socket){
   console.log('a user connected');
+  socket.on('reset', function(msg){
+	if(msg=='*****')
+		dateConf = new Date(0);  	
+  });
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
