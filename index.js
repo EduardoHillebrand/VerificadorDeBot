@@ -3,8 +3,8 @@ var app = require('express')();
 var http = require('http').Server(app); 
 var io = require('socket.io')(http);
 
-const dontPadTarget = 'treinobatalhadebots';
-const timer=10000;
+const dontPadTarget = '9567891101234';
+const timer=60000;
 var cod = [];
 var count = [];
 var percents = [];
@@ -52,18 +52,18 @@ function test() {
 		    done();
 		}).catch(err => { 
 			console.log('err',err);
-			io.emit('err', new Date().toString() + ' - ' + err.code);
+			io.emit('err', new Date().toLocaleString('pt-BR',{timeZone: "America/Sao_Paulo"}) + ' - ' + err.code);
 		    done();
 		});
 }
 
-function emit4All() {
-	io.emit('message', "##############################INIT###################################");
-	io.emit('message', new Date().toString());
+function emit4All(to = io) {
+	to.emit('message', "##############################INIT###################################");
+	to.emit('message', new Date().toLocaleString('pt-BR',{timeZone: "America/Sao_Paulo"}));
 	for (var i = 0; i < cod.length; i++) {
-		io.emit('message', cod[i]+' : '+percents[i]);
+		to.emit('message', cod[i]+' : '+percents[i]);
 	}
-	io.emit('message', "###############################END###################################");
+	to.emit('message', "###############################END###################################");
 }
 
 
@@ -77,6 +77,7 @@ app.get('/', function(req, res){
 
 io.on('connection', function(socket){
   console.log('a user connected');
+  emit4All(socket);
   socket.on('reset', function(msg){
 	if(msg=='*****')
 		dateConf = new Date(0);  	
