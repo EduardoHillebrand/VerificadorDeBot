@@ -1,13 +1,15 @@
-const dontpad = require('dontpad-api');
-var app = require('express')();
-var http = require('http').Server(app); 
-var io = require('socket.io')(http);
 require('dotenv').config();
+const request = require('request');
+var app 	  = require('express')();
+var http 	  = require('http').Server(app); 
+var io 		  = require('socket.io')(http);
+//const dontpad = require('dontpad-api');
 
-const dontPadTarget = '9567891101234';
-const timer=60000;
-var cod = [];
-var count = [];
+const target = process.env.TARGET;
+const timer	 = 60000;
+const url 	 = process.env.URL;
+var cod 	 = [];
+var count 	 = [];
 var percents = [];
 var dateConf = new Date();
 
@@ -22,8 +24,34 @@ function resetAll() {
 	percents = [];
 }
 
+function readContent(target){
+    const options = {
+        host: url + target,
+        path: "/"
+    };
+    
+    let content = "";   
+    
+    return new Promise((resolve, reject) => {
+        request(url + target, (err, response, body) =>{
+            if(err)
+            {
+                reject(err);
+                return;
+            }
+            try{
+                resolve(body);    
+            }catch(err){
+                reject(err);
+            }
+            
+        });
+    }) 
+}
+
+
 function test() {
-	dontpad.readContent(dontPadTarget)
+	readContent(target)
 		.then(conteudo => {
 			let comp = new Date();
 			if(dateConf.getHours() != comp.getHours()){
