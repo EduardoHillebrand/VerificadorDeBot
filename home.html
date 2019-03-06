@@ -8,12 +8,15 @@
       form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
       form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
       form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      .donate{ text-align: center; padding: 10px; color: white;background-color: black; font-weight: bold; }
+      .donate a { color: #3575D3; text-decoration: none; }
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
     </style>
   </head>
   <body>
+    <div style="text-align: center;">Doações através do <a href="https://play.google.com/store/apps/details?id=com.picpay&rdid=com.picpay"> PicPay </a>para @eduardo.hillebrand</div>
     <ul id="messages"></ul>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
